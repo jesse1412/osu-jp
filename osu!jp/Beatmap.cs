@@ -51,7 +51,7 @@ namespace osu_jp
         }
 
         /// <summary>
-        /// Load file from given StreamReader into useable beatmap format.
+        /// Load file from given StreamReader into useable beatmap format. Data is saved to this object.
         /// </summary>
         /// <param name="mapOsuFileReader"></param>
         private void loadOsuFile(StreamReader mapOsuFileReader)
