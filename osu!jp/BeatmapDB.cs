@@ -16,8 +16,6 @@ namespace osu_jp
         public BeatmapDB(string osuDir)
         {
 
-            loadedMaps = new List<Beatmap>();
-
             if(checkDirectoryValidity(osuDir) != true)
             {
 
@@ -28,7 +26,7 @@ namespace osu_jp
             else
             {
 
-                loadBeatmaps(osuDir + "\\Songs");
+                loadedMaps = getBeatMaps(osuDir + "\\Songs");
 
             }
 
@@ -69,12 +67,13 @@ namespace osu_jp
         /// Load osu! maps from the given directory to this objects "loadedMaps".
         /// </summary>
         /// <param name="beatmapDirectory"></param>
-        private void loadBeatmaps(string beatmapDirectory)
+        private List<Beatmap> getBeatMaps(string beatmapDirectory)
         {
 
             string[] songFolders;
             string[] songFiles;
             StreamReader osuFileReader;
+            List<Beatmap> processingMaps = new List<Beatmap>();
 
             songFolders = Directory.GetDirectories(beatmapDirectory);
             songFiles = Directory.GetFiles(beatmapDirectory, "*.osu");
@@ -90,10 +89,12 @@ namespace osu_jp
             {
 
                 osuFileReader = new StreamReader(osuFile);
-                loadedMaps.Add(new Beatmap(osuFileReader));
+                processingMaps.Add(new Beatmap(osuFileReader));
                 osuFileReader.Close();
 
             }
+
+            return processingMaps;
 
         }
 
