@@ -36,16 +36,17 @@ namespace osu_jp
 
         public List<osuNote> mapNotes;
 
-        public int mapDrain;
-        public int mapOverallDifficulty;
-        public int mapCircleSize;
-        public int mapApproachRate;
-        public int mapSliderTickRate;
-        public int mapSliderMultiplier;
+        public double mapDrain;
+        public double mapOverallDifficulty;
+        public double mapCircleSize;
+        public double mapApproachRate;
+        public double mapSliderTickRate;
+        public double mapSliderMultiplier;
 
         public Beatmap(StreamReader mapOsuFileReader)
         {
 
+            mapNotes = new List<osuNote>();
             loadOsuFile(mapOsuFileReader);
 
         }
@@ -60,19 +61,24 @@ namespace osu_jp
             string currentLine;
             string leftSideOfColon;
             string rightSideOfColon = "";
+            string[] splitAtColon;
 
             bool exitLoop = false;
 
             //Cycle through the map file until all lines have been processed.
-            while ((currentLine = mapOsuFileReader.ReadLine()) != "")
+            while (!mapOsuFileReader.EndOfStream)
             {
 
-                leftSideOfColon = currentLine.Split(':')[0];
+                currentLine = mapOsuFileReader.ReadLine();
 
-                if (leftSideOfColon.Count() > 1)
+                splitAtColon = currentLine.Split(':');
+
+                leftSideOfColon = splitAtColon[0];
+
+                if (splitAtColon.Count() > 1 && splitAtColon[1].Length > 0)
                 {
 
-                    rightSideOfColon = currentLine.Substring(leftSideOfColon.Length + 2);
+                    rightSideOfColon = currentLine.Substring(leftSideOfColon.Length + 1);
 
                 }
 
@@ -92,48 +98,41 @@ namespace osu_jp
                         mapDifficultyName = rightSideOfColon;
                         break;
                     case "HPDrainRate":
-                        mapDrain = int.Parse(rightSideOfColon);
+                        mapDrain = double.Parse(rightSideOfColon);
                         break;
                     case "CircleSize":
-                        mapCircleSize = int.Parse(rightSideOfColon);
+                        mapCircleSize = double.Parse(rightSideOfColon);
                         break;
                     case "OverallDifficulty":
-                        mapOverallDifficulty = int.Parse(rightSideOfColon);
+                        mapOverallDifficulty = double.Parse(rightSideOfColon);
                         break;
                     case "ApproachRate":
-                        mapApproachRate = int.Parse(rightSideOfColon);
+                        mapApproachRate = double.Parse(rightSideOfColon);
                         break;
                     case "SliderMultiplier":
-                        mapSliderMultiplier = int.Parse(rightSideOfColon);
+                        mapSliderMultiplier = double.Parse(rightSideOfColon);
                         break;
                     case "SliderTickRate":
-                        mapSliderTickRate = int.Parse(rightSideOfColon);
+                        mapSliderTickRate = double.Parse(rightSideOfColon);
                         break;
                     case "[HitObjects]":
                         string[] currentLineSplit;
                         int thisNoteX;
                         int thisNoteY;
                         int thisNoteTime;
-                        while ((currentLine = mapOsuFileReader.ReadLine()) != "")
+                        while ((currentLine = mapOsuFileReader.ReadLine()) != null)
                         {
+
                             currentLineSplit = currentLine.Split(',');
 
                             thisNoteX = int.Parse(currentLineSplit[0]);
                             thisNoteY = int.Parse(currentLineSplit[1]);
                             thisNoteTime = int.Parse(currentLineSplit[2]);
 
-                            mapNotes.Add(new osuNote());
+                            mapNotes.Add(new osuNote(thisNoteX, thisNoteY, thisNoteTime));
 
                         }
-                        exitLoop = true;
                         break;
-
-                }
-
-                if (exitLoop)
-                {
-
-                    break;
 
                 }
 

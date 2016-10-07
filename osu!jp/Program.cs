@@ -10,13 +10,11 @@ namespace osu_jp
     class Program
     {
 
-        private BeatmapDB beatmaps;
-        private string workingOsuDir;
-
-        void Main(string[] args)
+        static void Main(string[] args)
         {
 
-            Console.WriteLine("test");
+
+            Contents mainContent = new Contents(promptOsuDir());
 
         }
 
@@ -24,7 +22,7 @@ namespace osu_jp
         /// Prompt user for desired song directory.
         /// </summary>
         /// <returns>Valid directory containing a "Songs" folder.</returns>
-        public string promptOsuDir()
+        public static string promptOsuDir()
         {
 
             const string DEFAULT_OSU_DIR = @"C:\Program Files (x86)\osu!";

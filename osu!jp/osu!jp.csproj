@@ -45,6 +45,7 @@
   <ItemGroup>
     <Compile Include="Beatmap.cs" />
     <Compile Include="BeatmapDB.cs" />
+    <Compile Include="Contents.cs" />
     <Compile Include="Program.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
   </ItemGroup>

@@ -16,7 +16,7 @@ namespace osu_jp
         public BeatmapDB(string osuDir)
         {
 
-            if(checkDirectoryValidity(osuDir) != true)
+            if (checkDirectoryValidity(osuDir) != true)
             {
 
                 throw new Exception("Invalid osu! directory. You should not have seen this exception; please contact the developer.");
@@ -81,7 +81,7 @@ namespace osu_jp
             foreach (string songFolder in songFolders)
             {
 
-                songFiles.Concat(Directory.GetFiles(songFolder, "*.osu"));
+                songFiles = songFiles.Concat(Directory.GetFiles(songFolder, "*.osu")).ToArray();
 
             }
 
